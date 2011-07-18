@@ -3,7 +3,7 @@ add_action('admin_menu', 'wpbw_create_config_page');
 
 function wpbw_create_config_page() {
 	add_options_page('Bitcoin Wallet Options', 'Bitcoin Wallet', 'manage_options', 'wpbw-config-menu', 'wpbw_config_page');
-	add_action('admin_init', 'register_wpbw_settings');
+	add_action('admin_init', 'wpbw_register_settings');
 }
 
 function wpbw_config_page() {
@@ -28,13 +28,16 @@ function wpbw_config_page() {
 	<label>bitcoind RPC Password:</label>
 	<input id="bitcoind_rpc_password" name="wpbw_plugin_options[bitcoind_rpc_password]" size="40" type="text" value="<?php echo $options['bitcoind_rpc_password'] ?>" />
 	<br />
+	<label>bitcoind account prefix:</label>
+	<input id="bitcoind_account_prefix" name="wpbw_plugin_options[bitcoind_account_prefix]" size="40" type="text" value="<?php echo $options['bitcoind_account_prefix'] ?>" />
+	<br />
 	<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 	</form>
 	</div>
 	<?php
 }
 
-function register_wpbw_settings() {
+function wpbw_register_settings() {
 	register_setting('wpbw_plugin_options', 'wpbw_plugin_options', 'wpbw_plugin_options_validate');
 }
 
@@ -43,6 +46,7 @@ function wpbw_plugin_options_validate($input) {
 	$newinput['bitcoind_rpc_port'] = trim($input['bitcoind_rpc_port']);
 	$newinput['bitcoind_rpc_username'] = trim($input['bitcoind_rpc_username']);
 	$newinput['bitcoind_rpc_password'] = trim($input['bitcoind_rpc_password']);
+	$newinput['bitcoind_account_prefix'] = trim($input['bitcoind_account_prefix']);
 
 	//TODO: Actually validate the input.
 
